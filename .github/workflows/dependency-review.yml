@@ -1,0 +1,21 @@
+# Required on pull requests in this organization's code repositories by an
+# organization ruleset. Fails a pull request that adds a dependency with a
+# known high or critical vulnerability. Only dependencies the pull request
+# adds are judged, so existing advisories don't block unrelated work.
+name: dependency-review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+          # Pull requests from forks get a read-only token, which can't comment.
+          comment-summary-in-pr: never
